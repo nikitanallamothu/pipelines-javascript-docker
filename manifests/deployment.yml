@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: nikitanallamothupipelinesjavascriptdocker 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nikitanallamothupipelinesjavascriptdocker
+  template:
+    metadata:
+      labels:
+        app: nikitanallamothupipelinesjavascriptdocker 
+    spec:
+      containers:
+        - name: nikitanallamothupipelinesjavascriptdocker 
+          image: nikitacontainer.azurecr.io/nikitanallamothupipelinesjavascriptdocker
+          ports:
+          - containerPort: 8080
