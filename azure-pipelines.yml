@@ -50,7 +50,7 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          url="https://dev.azure.com/ninallam/Test retention policies/_apis/build/retention/leases?api-version=6.0-preview.1"
+          url="https://dev.azure.com/ninallam/Retention/_apis/build/retention/leases?api-version=6.0-preview.1"
           contentType="Content-Type: application/json"
           bearerToken="Authorization: Bearer ${SYSTEM_ACCESSTOKEN}"
           getUrl="${url}&ownerId=ninallam&definitionId=$(System.DefinitionId)&runId=$(Build.BuildId)"
