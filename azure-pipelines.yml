@@ -43,5 +43,30 @@ stages:
 
     - upload: manifests
       artifact: manifests
+    - task: Bash@3
+      displayName: Set retention
+      env:
+        SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+      inputs:
+        targetType: 'inline'
+        script: |
+          url="https://dev.azure.com/ninallam/Kubernetes/_apis/build/retention/leases?api-version=6.0-preview.1"
+          contentType="Content-Type: application/json"
+          bearerToken="Authorization: Bearer ${SYSTEM_ACCESSTOKEN}"
+          getUrl="${url}&ownerId=ninallam&definitionId=$(System.DefinitionId)&runId=$(Build.BuildId)"
+          echo "$bearerToken"
+          json=$(curl -X GET "${getUrl}" -H "${bearerToken}")
+          echo "$json"
+          count=$(echo $json | jq '.count')
+          echo "$count"
+          if [$count == 1]; then
+            echo 'Retention lease already exists'
+          else
+            echo 'Retention lease does not exist'
+            data="[{ \"daysValid\": 15, \"runId\": \"$(Build.BuildId)\" , \"definitionId\": \"$(System.DefinitionId)\", \"ownerId\": \"Nikita Nallamothu\", \"protectPipeline\":true }]"
+            echo "$data"
+            response=$(curl -X POST "${url}" -H "${contentType}" -H "${bearerToken}" -d "${data}")
+            echo "$response"
+          fi
 
 
