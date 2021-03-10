@@ -63,7 +63,7 @@ stages:
             echo 'Retention lease already exists'
           else
             echo 'Retention lease does not exist'
-            data="[{ \"daysValid\": 15, \"runId\": \"$(Build.BuildId)\" , \"definitionId\": \"$(System.DefinitionId)\", \"ownerId\": \"Nikita Nallamothu\", \"protectPipeline\":true }]"
+            data="[{ \"daysValid\": 1, \"runId\": \"$(Build.BuildId)\" , \"definitionId\": \"$(System.DefinitionId)\", \"ownerId\": \"Nikita Nallamothu\", \"protectPipeline\":true }]"
             echo "$data"
             response=$(curl -X POST "${url}" -H "${contentType}" -H "${bearerToken}" -d "${data}")
             echo "$response"
